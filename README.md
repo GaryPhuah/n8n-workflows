@@ -1,10 +1,9 @@
-# n8n-workflows
-
-**Library of n8n workflows — starting with chatbots, expanding into diverse automation.**  
-This repository contains ready-to-use n8n workflows in JSON format, which can be imported into your n8n instance and customized to your needs.
+<h1 align="center">n8n Workflows</h1>
+<p align="center"><i>A curated library of n8n workflows — starting with chatbot automation and expanding into diverse automation use cases.</i></p>
 
 ---
-## Overview
+
+## 📚 Overview
 
 The workflows in this repository are currently focused on **chatbot automation**, including:
 - Email chatbot automation
@@ -17,7 +16,17 @@ The workflows in this repository are currently focused on **chatbot automation**
 
 ---
 
-## Folder Structure
+## 🚀 Features
+
+| Feature                      | Description                                           |
+| ---------------------------- | -----------------------------------------------------|
+| 💬 Chatbot Automations       | Workflows for Email, Web, WhatsApp, Telegram bots     |
+| 📂 Knowledge Base Upload     | Upload workflows supporting multiple file formats    |
+| 🔄 Easy Import               | JSON workflows ready for n8n import and customization|
+| 📈 Scalable Structure        | Organized folder structure for future workflow types  |
+
+---
+## 📁 Folder Structure
 ```
 n8n-workflows/
 │
@@ -34,11 +43,11 @@ n8n-workflows/
 ```
 ---
 
-## Getting Started
+## ⚙️ Getting Started
 ### Prerequisites
 - [n8n](https://n8n.io) v1.0 or newer
-- API keys and credentials for relevant platforms (Email, WhatsApp, Telegram)
-- A configured Knowledge Base (support all types of file formats) or connected data source
+- API keys and credentials for Email, WhatsApp, Telegram platforms
+- A configured Knowledge Base (supports `.pdf`, `.csv`, `.docx`, `.txt`, etc.) or connected data source
 
 ### Installation
 1. **Install n8n** using npm:
@@ -52,8 +61,25 @@ Open your n8n dashboard.
 Go to Workflows → Import from File.
 Select the desired .json file.
 Update any required environment variables, API keys, or webhook URLs
+---
+## 📸 Visuals
+
+| Chatbot Knowledge Base                 | Email Chatbot Automation            | Telegram + Mail Automation           |
+| ------------------------------------- | ---------------------------------- | ----------------------------------- |
+| ![Chatbot Knowledge Base](Screenshot/Chatbot Knowledge Base 1.png)<br>![Chatbot Knowledge Base](Screenshot/Chatbot Knowledge Base 2.png) | ![Email Chatbot Automation](Screenshot/Email Chatbot Automation.png) | ![Telegram + Mail Automation](Screenshot/Telegram + Mail Automation.png) |
+
+| Telegram Chatbot Automation            | Web Chatbot Automation              | WhatsApp Chatbot Automation          |
+| ------------------------------------- | ---------------------------------- | ----------------------------------- |
+| ![Telegram Chatbot Automation](Screenshot/Telegram Chatbot Automation.png) | ![Web Chatbot Automation](Screenshot/Web Chatbot Automation.png) | ![WhatsApp Chatbot Automation](Screenshot/WhatsApp Chatbot Automation.png) |
 
 
+---
 ## Notes
 These workflows are templates — you may need to adapt them to your specific setup.
 You are free to modify, combine, or extend these workflows for your own use cases.
+---
+
+👩‍💻 Author
+- **Hong Xuan**
+
+📁 Repository: n8n-workflows
