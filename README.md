@@ -66,11 +66,11 @@ Update any required environment variables, API keys, or webhook URLs
 
 | Chatbot Knowledge Base                 | Email Chatbot Automation            | Telegram + Mail Automation           |
 | ------------------------------------- | ---------------------------------- | ----------------------------------- |
-| ![Chatbot Knowledge Base](chatbot-knowledgebase-automations/Screenshot/Chatbot Knowledge Base 1.png)<br>![Chatbot Knowledge Base](chatbot-knowledgebase-automations/Screenshot/Chatbot Knowledge Base 2.png) | ![Email Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/Email Chatbot Automation.png) | ![Telegram + Mail Automation](chatbot-knowledgebase-automations/Screenshot/Telegram + Mail Automation.png) |
+| ![Chatbot Knowledge Base](chatbot-knowledgebase-automations/Screenshot/Chatbot%20Knowledge%20Base%201.png)<br>![Chatbot Knowledge Base](chatbot-knowledgebase-automations/Screenshot/Chatbot%20Knowledge%20Base%202.png) | ![Email Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/Email Chatbot Automation.png) | ![Telegram + Mail Automation](chatbot-knowledgebase-automations/Screenshot/Telegram%20+%20Mail%20Automation.png) |
 
 | Telegram Chatbot Automation            | Web Chatbot Automation              | WhatsApp Chatbot Automation          |
 | ------------------------------------- | ---------------------------------- | ----------------------------------- |
-| ![Telegram Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/Telegram Chatbot Automation.png) | ![Web Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/Web Chatbot Automation.png) | ![WhatsApp Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/WhatsApp Chatbot Automation.png) |
+| ![Telegram Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/Telegram%20Chatbot%20Automation.png) | ![Web Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/Web%20Chatbot%20Automation.png) | ![WhatsApp Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/WhatsApp%20Chatbot%20Automation.png) |
 
 
 ---
