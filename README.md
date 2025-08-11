@@ -66,11 +66,11 @@ Update any required environment variables, API keys, or webhook URLs
 
 | Chatbot Knowledge Base                 | Email Chatbot Automation            | Telegram + Mail Automation           |
 | ------------------------------------- | ---------------------------------- | ----------------------------------- |
-| ![Chatbot Knowledge Base](Screenshot/Chatbot Knowledge Base 1.png)<br>![Chatbot Knowledge Base](Screenshot/Chatbot Knowledge Base 2.png) | ![Email Chatbot Automation](Screenshot/Email Chatbot Automation.png) | ![Telegram + Mail Automation](Screenshot/Telegram + Mail Automation.png) |
+| ![Chatbot Knowledge Base](chatbot-knowledgebase-automations/Screenshot/Chatbot Knowledge Base 1.png)<br>![Chatbot Knowledge Base](chatbot-knowledgebase-automations/Screenshot/Chatbot Knowledge Base 2.png) | ![Email Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/Email Chatbot Automation.png) | ![Telegram + Mail Automation](chatbot-knowledgebase-automations/Screenshot/Telegram + Mail Automation.png) |
 
 | Telegram Chatbot Automation            | Web Chatbot Automation              | WhatsApp Chatbot Automation          |
 | ------------------------------------- | ---------------------------------- | ----------------------------------- |
-| ![Telegram Chatbot Automation](Screenshot/Telegram Chatbot Automation.png) | ![Web Chatbot Automation](Screenshot/Web Chatbot Automation.png) | ![WhatsApp Chatbot Automation](Screenshot/WhatsApp Chatbot Automation.png) |
+| ![Telegram Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/Telegram Chatbot Automation.png) | ![Web Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/Web Chatbot Automation.png) | ![WhatsApp Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/WhatsApp Chatbot Automation.png) |
 
 
 ---
