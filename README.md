@@ -66,7 +66,7 @@ Update any required environment variables, API keys, or webhook URLs
 
 | Chatbot Knowledge Base                 | Email Chatbot Automation            | Telegram + Mail Automation           |
 | ------------------------------------- | ---------------------------------- | ----------------------------------- |
-| ![Chatbot Knowledge Base](chatbot-knowledgebase-automations/Screenshot/Chatbot%20Knowledge%20Base%201.png)<br>![Chatbot Knowledge Base](chatbot-knowledgebase-automations/Screenshot/Chatbot%20Knowledge%20Base%202.png) | ![Email Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/Email Chatbot Automation.png) | ![Telegram + Mail Automation](chatbot-knowledgebase-automations/Screenshot/Telegram%20+%20Mail%20Automation.png) |
+| ![Chatbot Knowledge Base](chatbot-knowledgebase-automations/Screenshot/Chatbot%20Knowledge%20Base%201.png)<br>![Chatbot Knowledge Base](chatbot-knowledgebase-automations/Screenshot/Chatbot%20Knowledge%20Base%202.png) | ![Email Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/Email%20Chatbot%20Automation.png) | ![Telegram + Mail Automation](chatbot-knowledgebase-automations/Screenshot/Telegram%20+%20Mail%20Automation.png) |
 
 | Telegram Chatbot Automation            | Web Chatbot Automation              | WhatsApp Chatbot Automation          |
 | ------------------------------------- | ---------------------------------- | ----------------------------------- |
