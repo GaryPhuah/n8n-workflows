@@ -56,11 +56,11 @@ n8n-workflows/
    ```
    Or follow the n8n installation guide [official n8n installation guide](https://docs.n8n.io/getting-started/installation/)
 
-2.**Importing a Workflow**
-Open your n8n dashboard.
-Go to Workflows → Import from File.
-Select the desired .json file.
-Update any required environment variables, API keys, or webhook URLs
+### Importing a Workflow
+1. Open your n8n dashboard.
+2. Go to Workflows → Import from File.
+3. Select the desired .json file.
+4. Update any required environment variables, API keys, or webhook URLs
 ---
 ## 📸 Visuals
 
