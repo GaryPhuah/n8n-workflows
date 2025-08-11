@@ -81,5 +81,3 @@ You are free to modify, combine, or extend these workflows for your own use case
 
 👩‍💻 Author
 - **Hong Xuan**
-
-📁 Repository: n8n-workflows
