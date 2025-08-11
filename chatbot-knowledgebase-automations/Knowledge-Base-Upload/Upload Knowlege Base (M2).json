@@ -1,0 +1,172 @@
+{
+  "name": "Upload Knowlege Base (M2)",
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "basicAuth",
+        "formTitle": "Upload Files",
+        "formDescription": "Upload Files",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "File",
+              "fieldType": "file",
+              "acceptFileTypes": ".pdf,.md.,.csv"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "836ac359-b5e7-4e09-a74c-ff05e23cf6ca",
+      "name": "On form submission",
+      "webhookId": "20bed017-af23-47cf-82c4-8294ae164630",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "aswNQ5nzHoG0xTkm",
+          "name": "hongxuan"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "textSplittingMode": "custom",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "file",
+                "value": "={{ $json.File[0].filename }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        352,
+        208
+      ],
+      "id": "8d4b0cef-c333-48c6-b4e0-e0cba1a18ad2",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        448,
+        304
+      ],
+      "id": "2bdf0278-6a8d-4a89-9d27-19d1d7b3ebd5",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": "n8n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
+      "typeVersion": 1.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a7ac1b51-836a-4b40-8b58-8f0b2da11c74",
+      "name": "Postgres PGVector Store",
+      "credentials": {
+        "postgres": {
+          "id": "krR65T2HycdezJpu",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        176,
+        192
+      ],
+      "id": "5c40e5b8-e2a3-42e6-a7e6-7af05d9e0608",
+      "name": "Embeddings Ollama",
+      "credentials": {
+        "ollamaApi": {
+          "id": "aNJPWOBP2RNG8ZZf",
+          "name": "Ollama account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "064f8f2f-eb93-43a4-ad04-ad13dcb15233",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cfd927bfe54306cdf34b610f67b63f098dea8e2174b17e26ee8e2545d02ee795"
+  },
+  "id": "OVZVbNvLZ7xhBCYs",
+  "tags": []
+}

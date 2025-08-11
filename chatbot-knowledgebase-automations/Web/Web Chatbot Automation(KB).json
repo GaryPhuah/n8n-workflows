@@ -1,0 +1,245 @@
+{
+  "name": "Web Chatbot Automation(KB)",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "dced536c-0302-40ab-9fc4-522f9e049091",
+      "name": "When chat message received",
+      "webhookId": "5e255225-945b-4045-9c2d-0b27a94e10e6"
+    },
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a helpful assistant with access to a vector database containing support knowledge.\n\nYou need to answer questions based on the customer's language: if the customer uses English, reply in English; if the customer uses Mandarin, reply in Mandarin; and if the customer uses Malay, reply in Malay"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        0
+      ],
+      "id": "d88762f0-3e77-4f4a-a317-8d3520bdaa91",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        224
+      ],
+      "id": "18d781ac-399b-47d9-9ace-3c76a522ef9b",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "GoS6cqSOma9wF1du",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        352,
+        224
+      ],
+      "id": "3c616de9-f17a-4c3e-a4fa-81b55129d69b",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "krR65T2HycdezJpu",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "My data is all about supporting questions, try to anwer users questions as accurate as you can."
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1.1,
+      "position": [
+        480,
+        224
+      ],
+      "id": "37308e36-3a0a-4796-921d-e5ad4c1a39d0",
+      "name": "Answer questions with a vector store"
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        464,
+        640
+      ],
+      "id": "29c37614-7eea-4f4f-9dc0-b195cae2514e",
+      "name": "Embeddings Ollama",
+      "credentials": {
+        "ollamaApi": {
+          "id": "aNJPWOBP2RNG8ZZf",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        432
+      ],
+      "id": "7e28de50-a2f4-4d0a-af50-12d377454e83",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "GoS6cqSOma9wF1du",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableName": "n8n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
+      "typeVersion": 1.3,
+      "position": [
+        384,
+        432
+      ],
+      "id": "48f694b5-1a2c-4bfa-92a8-a6a7c662bb12",
+      "name": "Postgres PGVector Store",
+      "credentials": {
+        "postgres": {
+          "id": "krR65T2HycdezJpu",
+          "name": "Postgres account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Answer questions with a vector store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres PGVector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f84404da-8992-4704-9172-b71d2b654e2f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cfd927bfe54306cdf34b610f67b63f098dea8e2174b17e26ee8e2545d02ee795"
+  },
+  "id": "w0Hz2eWCueQXPKTZ",
+  "tags": []
+}
