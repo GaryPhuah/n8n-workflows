@@ -6,12 +6,15 @@
 ## 📚 Overview
 
 The workflows in this repository are currently focused on **chatbot automation**, including:
+**Chatbot Automations**
 - Email chatbot automation
 - Web chatbot automation
 - WhatsApp chatbot automation
 - Telegram chatbot automation
 - Knowledge Base upload workflows (For all apps)
 
+**Data Analyst Automation**
+-Analyze & Visualize Data from NocoDB Using AI
 **Coming soon:** Additional workflows for integrations, data processing, and general automation tasks.
 
 ---
@@ -63,6 +66,7 @@ n8n-workflows/
 4. Update any required environment variables, API keys, or webhook URLs
 ---
 ## 📸 Visuals
+### Chatbot Automations
 
 | Chatbot Knowledge Base                 | Email Chatbot Automation            | Telegram + Mail Automation           |
 | ------------------------------------- | ---------------------------------- | ----------------------------------- |
@@ -72,6 +76,11 @@ n8n-workflows/
 | ------------------------------------- | ---------------------------------- | ----------------------------------- |
 | ![Telegram Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/Telegram%20Chatbot%20Automation.png) | ![Web Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/Web%20Chatbot%20Automation.png) | ![WhatsApp Chatbot Automation](chatbot-knowledgebase-automations/Screenshot/WhatsApp%20Chatbot%20Automation.png) |
 
+
+### Data Analyst Automation
+| Analyze & Visualize Data from NocoDB Using AI              |           |          |
+| ------------------------------------- | ---------------------------------- | ----------------------------------- |
+| ![Analyze & Visualize Data from NocoDB Using AI](data-analyst-automations/Screenshot/Analyze%20&%20Visualize%20Data%20from%20NocoDB%20Using%20AI.png)<br>!
 
 ---
 ## Notes
