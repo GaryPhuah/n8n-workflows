@@ -80,7 +80,7 @@ n8n-workflows/
 ### Data Analyst Automation
 | Analyze & Visualize Data from NocoDB Using AI|          
 | ------------------------------------- | 
-| ![Analyze & Visualize Data from NocoDB Using AI](data-analyst-automations/Screenshot/Analyze%20&%20Visualize%20Data%20from%20NocoDB%20Using%20AI.png)<br>!
+| ![Analyze & Visualize Data from NocoDB Using AI](data-analyst-automations/Screenshot/Analyze%20&%20Visualize%20Data%20from%20NocoDB%20Using%20AI.png)<br>
 
 ---
 ## Notes
