@@ -1,0 +1,426 @@
+{
+  "name": "Analyze & Visualize Data from NocoDB Using AI",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -128,
+        -32
+      ],
+      "id": "fb334f4e-4236-4471-a15e-b4a0503e5a0c",
+      "name": "When chat message received",
+      "webhookId": "752a7f23-3090-4cf8-a4c2-6dc3d4ccbc9d"
+    },
+    {
+      "parameters": {
+        "url": "https://app.nocodb.com/api/v2/meta/tables/m9isib92zo6tzi2",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "nocoDbApiToken",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        32,
+        -32
+      ],
+      "id": "685ec65a-ed16-4273-bae9-0af333ce242d",
+      "name": "HTTP Request",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "ANqAqrrgktBMMhim",
+          "name": "NocoDB Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11823666-d085-4b7b-a071-aacf40df6f1f",
+              "name": "sessionId",
+              "value": "={{ $('When chat message received').item.json.sessionId }}",
+              "type": "string"
+            },
+            {
+              "id": "a3e29363-48b9-462f-b506-fa65282e0b60",
+              "name": "chatInput",
+              "value": "={{ $('When chat message received').item.json.chatInput }}",
+              "type": "string"
+            },
+            {
+              "id": "43af9101-b5c5-46a7-8aa8-d900812b63c3",
+              "name": "columns",
+              "value": "={{ $json.columns.map(item => item.title).toJsonString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        -32
+      ],
+      "id": "857cf678-5a7d-4495-bc52-95be0f6cca11",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a helpful Data Analysis Expert skilled working with using the NocoDB database tool. You are tasked with helping the user understand the table they mentioned and generating a chart for them.\n\nHere are the columns for the table of context:\n{{ $json.columns }}\n\nTask requirements:\nRetrieve data from the NocoDB database.\nAnalyze and interpret the data to provide an analysis report.\n\n\nFor the final output, please generate a JSON in QuickChart or Chart.js format, and ensure the JSON structure follows the standards of Chart.js. Additionally, make sure that the JSON data is compatible for use in QuickChart via a URL request.\n\nReturn the result in Markdown format that can be directly inserted into images. For example:![Generated Chart][chart_url]\n\n\n\n\n\n\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        -32
+      ],
+      "id": "523299da-39e7-47c4-bb5a-3283cbfe8175",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wm9o4nqu",
+        "projectId": "pgo8dw555ew5lb6",
+        "table": "m9isib92zo6tzi2",
+        "returnAll": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Return_All', ``, 'boolean') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        656,
+        176
+      ],
+      "id": "58273998-18f8-43ed-b967-11a0569c4de8",
+      "name": "Get many rows in NocoDB",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "ANqAqrrgktBMMhim",
+          "name": "NocoDB Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "=If you need to generate a chart, please call the corresponding tool. Make sure to properly escape all strings, especially multi-line content. When outputting the chart, use the Markdown format to embed the image link for inline display of the chart.\n\nFormat example: ![Chart](chart URL)",
+        "workflowId": {
+          "__rl": true,
+          "value": "m9isib92zo6tzi2",
+          "mode": "id"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        192
+      ],
+      "id": "b7e2a432-1dac-4d95-80c2-8396b155ae26",
+      "name": "Generate Chart"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId }}",
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        352,
+        192
+      ],
+      "id": "63755a3f-26bf-41d1-b6b3-b84428ad388c",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"name\": \"chart_configuration\",\n  \"description\": \"Configuration schema for Chart.js charts\",\n  \"strict\": true,\n  \"schema\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"type\": {\n        \"type\": \"string\",\n        \"enum\": [\"bar\", \"line\", \"radar\", \"pie\", \"doughnut\", \"polarArea\", \"bubble\", \"scatter\", \"area\"]\n      },\n      \"data\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"labels\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"string\"\n            }\n          },\n          \"datasets\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"label\": {\n                  \"type\": [\"string\", \"null\"]\n                },\n                \"data\": {\n                  \"type\": \"array\",\n                  \"items\": {\n                    \"type\": \"number\"\n                  }\n                },\n                \"backgroundColor\": {\n                  \"type\": [\"array\", \"null\"],\n                  \"items\": {\n                    \"type\": \"string\"\n                  }\n                },\n                \"borderColor\": {\n                  \"type\": [\"array\", \"null\"],\n                  \"items\": {\n                    \"type\": \"string\"\n                  }\n                },\n                \"borderWidth\": {\n                  \"type\": [\"number\", \"null\"]\n                }\n              },\n              \"required\": [\"data\", \"label\", \"backgroundColor\", \"borderColor\", \"borderWidth\"],\n              \"additionalProperties\": false\n            }\n          }\n        },\n        \"required\": [\"labels\", \"datasets\"],\n        \"additionalProperties\": false\n      },\n      \"options\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"scales\": {\n            \"type\": [\"object\", \"null\"],\n            \"properties\": {\n              \"yAxes\": {\n                \"type\": \"array\",\n                \"items\": {\n                  \"type\": [\"object\", \"null\"],\n                  \"properties\": {\n                    \"ticks\": {\n                      \"type\": [\"object\", \"null\"],\n                      \"properties\": {\n                        \"max\": {\n                          \"type\": [\"number\", \"null\"]\n                        },\n                        \"min\": {\n                          \"type\": [\"number\", \"null\"]\n                        },\n                        \"stepSize\": {\n                          \"type\": [\"number\", \"null\"]\n                        },\n                        \"beginAtZero\": {\n                          \"type\": [\"boolean\", \"null\"]\n                        }\n                      },\n                      \"required\": [\"max\", \"min\", \"stepSize\", \"beginAtZero\"],\n                      \"additionalProperties\": false\n                    },\n                    \"scaleLabel\": {\n                      \"type\": [\"object\", \"null\"],\n                      \"properties\": {\n                        \"display\": {\n                          \"type\": [\"boolean\", \"null\"]\n                        },\n                        \"labelString\": {\n                          \"type\": [\"string\", \"null\"]\n                        }\n                      },\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"required\": [\"ticks\"],\n                  \"additionalProperties\": false\n                }\n              },\n              \"xAxes\": {\n                \"type\": \"array\",\n                \"items\": {\n                  \"type\": [\"object\", \"null\"],\n                  \"properties\": {\n                    \"stacked\": {\n                      \"type\": [\"boolean\", \"null\"]\n                    },\n                    \"scaleLabel\": {\n                      \"type\": [\"object\", \"null\"],\n                      \"properties\": {\n                        \"display\": {\n                          \"type\": [\"boolean\", \"null\"]\n                        },\n                        \"labelString\": {\n                          \"type\": [\"string\", \"null\"]\n                        }\n                      },\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"required\": [\"stacked\"],\n                  \"additionalProperties\": false\n                }\n              }\n            },\n            \"required\": [\"yAxes\", \"xAxes\"],\n            \"additionalProperties\": false\n          },\n          \"plugins\": {\n            \"type\": [\"object\", \"null\"],\n            \"properties\": {\n              \"title\": {\n                \"type\": [\"object\", \"null\"],\n                \"properties\": {\n                  \"display\": {\n                    \"type\": [\"boolean\", \"null\"]\n                  },\n                  \"text\": {\n                    \"type\": [\"string\", \"null\"]\n                  }\n                },\n                \"required\": [\"display\", \"text\"],\n                \"additionalProperties\": false\n              },\n              \"legend\": {\n                \"type\": [\"object\", \"null\"],\n                \"properties\": {\n                  \"display\": {\n                    \"type\": [\"boolean\", \"null\"]\n                  },\n                  \"position\": {\n                    \"type\": [\"string\", \"null\"],\n                    \"enum\": [\"top\", \"left\", \"bottom\", \"right\", null]\n                  }\n                },\n                \"required\": [\"display\", \"position\"],\n                \"additionalProperties\": false\n              }\n            },\n            \"required\": [\"title\", \"legend\"],\n            \"additionalProperties\": false\n          },\n          \"responsive\": {\n            \"type\": [\"boolean\", \"null\"]\n          },\n          \"maintainAspectRatio\": {\n            \"type\": [\"boolean\", \"null\"]\n          },\n          \"animation\": {\n            \"type\": [\"object\", \"null\"],\n            \"properties\": {\n              \"duration\": {\n                \"type\": [\"number\", \"null\"]\n              },\n              \"easing\": {\n                \"type\": [\"string\", \"null\"]\n              }\n            },\n            \"additionalProperties\": false\n          }\n        },\n        \"required\": [\"scales\", \"plugins\"],\n        \"additionalProperties\": false\n      }\n    },\n    \"required\": [\"type\", \"data\", \"options\"],\n    \"additionalProperties\": false\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        272,
+        704
+      ],
+      "id": "b47240a2-b298-45b9-bd32-9c39e3bd7796",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-05-20",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        64,
+        704
+      ],
+      "id": "fdfd694f-9f98-44ca-b46b-44c9cae73399",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "DSGuXyRmdxXGGsZK",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -80,
+        528
+      ],
+      "id": "dccc2075-210d-478b-bd55-9f85520cb81d",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=input data: {{ $json.query }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=### Role\n\nYou are a Chart.js visualization expert. Your primary task is to generate valid, clearly structured, and clearly labeled Chart.js configuration objects based on user requests. These configurations should be directly usable in the Chart.js constructor, new Chart().\n\n\n\n---\n\n### Input Requirements\n\nYou will receive a user's chart description. Please parse and respond based on the following elements:\n\n#### 1. Chart Type\n\nUsers may specify a chart type, such as bar, line, pie, scatter, radar, bubble, etc.\n\n#### 2. Data\n\nUser-provided data may be in CSV, JSON, a list, or natural language format.\n\n* Ask for clarification if the data format is unclear.\n* Extract and transform the data structure if necessary.\n\n#### 3. Label Information\n\nUsers should provide labels for elements such as axes and data points, specifically:\n\n* **Axis Title** (e.g., \"Smartphone Model,\" \"Price (MYR)\")\n* **Unit** (e.g.\"(MYR)\")\n* **Data Type** (Category, Numeric, Time Series)\n\nIf this information is missing, please proactively confirm with the user.\n\n#### 4. Styling\n\nSupports styling adjustments for colors, fonts, gridlines, titles, legends, tooltips, axis scales, and more.\n\n* If no specific styles are provided by the user, the Chart.js default values will be used.\n\n#### 5. Chart.js Specific Features\n\nUpon user request, advanced features such as logarithmic scales, animations, and plugins are supported.\n\n#### 6. Natural Language Input Parsing\n\nSupports accurate conversion of unstructured descriptions into valid Chart.js configurations.\n\n---\n\n### Output Requirements\n\nOutput a valid, well-formatted, and readable Chart.js JSON configuration object. This must include:\n\n* Data (data)\n* Configuration options (options)\n* Clear x-axis and y-axis labels (in options.scales)\n* Add units, titles, and data formatting (e.g., currency, date, etc.) as needed.\n---\n\n### 示例输入（优化版）\n\n> The bars are blue. The chart title is \"Price Comparison Across Smartphone Models.\" The x-axis is \"Smartphone Model\" and the y-axis is \"Price (MYR).\"。\n\n### Sample Output\n\nPlease generate a JSON configuration that conforms to the latest Chart.js version standards. The output should be similar to:\n\n```json\n{\n  \"type\": \"bar\",\n  \"data\": {\n    \"labels\": [\n      \"Samsung Galaxy Z Fold2 5G\",\n      \"Huawei P40 Pro+\",\n      \"Samsung Galaxy S20 Ultra 5G\"\n    ],\n    \"datasets\": [{\n      \"label\": \"Price (MYR)\",\n      \"data\": [1999, 1399, 1399],\n      \"backgroundColor\": \"blue\"\n    }]\n  },\n  \"options\": {\n    \"responsive\": true,\n    \"plugins\": {\n      \"title\": {\n        \"display\": true,\n        \"text\": \"Price Comparison Across Smartphone Models\"\n      }\n    },\n    \"scales\": {\n      \"x\": {\n        \"title\": {\n          \"display\": true,\n          \"text\": \"Smartphone Model\"\n        }\n      },\n      \"y\": {\n        \"title\": {\n          \"display\": true,\n          \"text\": \"Price (MYR)\"\n        },\n        \"ticks\": {\n          \"beginAtZero\": true,\n          \"callback\": function(value) {\n            return \"RM\" + value.toLocaleString();\n          }\n        }\n      }\n    }\n  }\n}\n\n\n```\n\n---\n\n### Important Notes\n\n* **Data Validation**: If data is incomplete or ambiguous, be sure to prompt the user and request additional information.\n* **Error Handling**: If a chart cannot be generated, clearly inform the user of the reason.\n* **Chart.js Version**: By default, the latest version of Chart.js is used unless otherwise specified.\n* **Best Practices**: Follow the official recommended configuration of Chart.js to ensure clear, readable, and professional charts.\n* **Important**: All output must have clear axis titles and units to demonstrate the professionalism and readability of the chart.\n\n\n",
+          "returnIntermediateSteps": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        96,
+        528
+      ],
+      "id": "eec660ea-c1d2-46f1-8f68-87dda72ce53a",
+      "name": "AI Agent Chart Generator"
+    },
+    {
+      "parameters": {
+        "content": "## Generate Visual Charts\n - Bar chart, pie chart, trend chart, etc.",
+        "height": 460,
+        "width": 840,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -160,
+        400
+      ],
+      "typeVersion": 1,
+      "id": "18984778-e165-4e54-8c8c-0c0c0ea71722",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Analyzing Data Stored in Nocodb\n\n- Querying Data\n- Analyzing Data\n- Generating Reports",
+        "height": 460,
+        "width": 1120,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -320,
+        -80
+      ],
+      "typeVersion": 1,
+      "id": "b8eeeae6-b885-4460-824e-aca3bbc28554",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"chartUrl\": \"https://quickchart.io/chart?width=800&height=400&c=\" + encodeURIComponent(JSON.stringify($json.output))\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        432,
+        528
+      ],
+      "id": "dd2bf3c0-b6ce-4fa2-8b04-c1418375cfe9",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-05-20",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        224,
+        208
+      ],
+      "id": "ffb11043-5a9d-4c3a-a064-691d5444559d",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "DSGuXyRmdxXGGsZK",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows in NocoDB": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Chart": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent Chart Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent Chart Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent Chart Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent Chart Generator": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8eb2dc05-b6ef-488e-bac0-cf8935397f90",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cfd927bfe54306cdf34b610f67b63f098dea8e2174b17e26ee8e2545d02ee795"
+  },
+  "id": "4hixXu3dW5CKXCVX",
+  "tags": []
+}
