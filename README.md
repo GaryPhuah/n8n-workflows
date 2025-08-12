@@ -15,6 +15,7 @@ The workflows in this repository are currently focused on **chatbot automation**
 
 **Data Analyst Automation**
 -Analyze & Visualize Data from NocoDB Using AI
+
 **Coming soon:** Additional workflows for integrations, data processing, and general automation tasks.
 
 ---
